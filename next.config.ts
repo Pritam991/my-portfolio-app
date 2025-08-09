@@ -12,8 +12,17 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: '**',
+        hostname: 'cdn-images-1.medium.com'
       },
+      {
+        protocol: 'https',
+        hostname: 'miro.medium.com'
+      },
+      {
+        protocol: 'https',
+        hostname: 'placehold.co',
+      },
+
     ],
   },
 };
