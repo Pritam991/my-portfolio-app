@@ -5,7 +5,8 @@ import { getMediumPosts } from '@/lib/actions';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { ArrowRight, Loader2, Rss } from 'lucide-react';
+//import { ArrowRight, Loader2, Rss } from 'lucide-react';
+import { ArrowRight, Rss } from 'lucide-react';
 import { Badge } from '../ui/badge';
 import Image from 'next/image';
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
@@ -15,10 +16,10 @@ import { Skeleton } from '../ui/skeleton';
 function PostSkeleton() {
     return (
         <div className="flex flex-col space-y-3">
-            <Skeleton className="h-[125px] w-full rounded-xl" />
+             <Skeleton className="h-[200px] w-full rounded-xl" />
             <div className="space-y-2">
                 <Skeleton className="h-4 w-full" />
-                <Skeleton className="h-4 w-[200px]" />
+                <Skeleton className="h-4 w-[250px]" />
             </div>
         </div>
     )
@@ -48,6 +49,14 @@ export function BlogSection() {
     }
     fetchPosts();
   }, []);
+
+
+  // Take the first two categories as keywords for the image hint
+  const getAiHint = (categories: string[]) => {
+    return categories.slice(0, 2).join(' ').toLowerCase();
+  }
+
+
 
   return (
     <section id="blog" className="py-16 md:py-24 bg-card">
@@ -92,6 +101,7 @@ export function BlogSection() {
                     width={400}
                     height={200}
                     className="w-full h-48 object-cover"
+                     data-ai-hint={getAiHint(post.categories)}
                     />
                 </Link>
                 <CardHeader>
