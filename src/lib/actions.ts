@@ -58,7 +58,7 @@ export async function getMediumPosts(): Promise<{ data?: MediumPost[], error?: s
             const linkMatch = itemContent.match(/<link>(.*?)<\/link>/);
             const guidMatch = itemContent.match(/<guid isPermaLink="false">(.*?)<\/guid>/);
             const pubDateMatch = itemContent.match(/<pubDate>(.*?)<\/pubDate>/);
- //           const descriptionMatch = itemContent.match(/<description><!\[CDATA\[([\s\S]*?)\]\]><\/description>/);
+            const descriptionMatch = itemContent.match(/<description><!\[CDATA\[([\s\S]*?)\]\]><\/description>/);
             const contentEncodedMatch = itemContent.match(/<content:encoded><!\[CDATA\[([\s\S]*?)\]\]><\/content:encoded>/);
             const categoriesMatch = Array.from(itemContent.matchAll(/<category><!\[CDATA\[(.*?)\]\]><\/category>/g));
 
@@ -78,6 +78,22 @@ export async function getMediumPosts(): Promise<{ data?: MediumPost[], error?: s
 //                const { imgSrc } = extractDescriptionAndImage(descriptionMatch[1]);
 //                thumbnail = imgSrc;
 //           }
+
+                       // If no image found, check the description as a fallback
+            if (!thumbnail && descriptionMatch) {
+                 const imgMatch = descriptionMatch[1].match(IMG_RX);
+                 if (imgMatch && imgMatch[1]) {
+                    thumbnail = imgMatch[1];
+                 }
+            }
+
+
+
+
+
+
+
+
             const categories = categoriesMatch.map(match => match[1]);
 
             return {
